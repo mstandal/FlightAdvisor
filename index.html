@@ -82,6 +82,15 @@ button,select,input{font:inherit;color:inherit}
 .airlist a{color:var(--orange2)}
 .airleft{display:grid;gap:16px}
 .altbox{background:var(--inset);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.chartbox{background:var(--inset);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-top:12px}
+.charthead{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.charthead label{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.seg button{background:var(--panel2);color:var(--muted);border:0;padding:4px 10px;font-size:12px;cursor:pointer;font-family:inherit}
+.seg button.on{background:var(--orange);color:#fff}
+#vfrmap{height:300px;border-radius:8px;border:1px solid var(--line);background:#cfd3d8;overflow:hidden}
+#vfrmap.mapmsg{display:flex;align-items:center;justify-content:center;text-align:center;padding:12px;font-size:12px;color:#333}
+#chartnote{margin:8px 0 0;color:var(--muted);font-size:12px}
 .altbox label{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:6px}
 .altin{display:flex;align-items:center;gap:10px}
 .altin input{width:120px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:18px;font-weight:700}
@@ -92,6 +101,23 @@ button,select,input{font:inherit;color:inherit}
 .altbig{font-size:28px;font-weight:800;color:var(--c);line-height:1.1}
 .altbig small{font-size:13px;color:var(--muted);margin-left:2px;font-weight:600}
 .airlist .gauge{margin:12px 8px 0}
+.inair{margin-top:8px;font-size:13px}
+.inair b{display:inline!important;font-size:inherit!important;letter-spacing:0!important;text-transform:none!important;color:var(--text)!important;margin:0!important}
+.ldia{margin-top:10px}
+.lref{border:1px dashed var(--line);border-radius:8px;padding:8px 10px;font-size:12px;color:var(--muted);
+  background:repeating-linear-gradient(135deg,transparent 0 6px,rgba(128,128,140,.10) 6px 12px)}
+.airlist .lref b{display:block;margin:0 0 2px;color:var(--text)}
+.lbrk{text-align:center;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:4px 0;border-top:1px dotted var(--line);padding-top:3px}
+.lscale{position:relative;height:190px;margin-left:150px;margin-right:4px;padding-bottom:0}
+.lbar{position:absolute;left:0;top:0;bottom:16px;width:56px;border:1px solid var(--line);border-radius:6px 6px 0 0;overflow:hidden;display:flex;flex-direction:column;background:var(--panel2)}
+.lover{background:var(--c);opacity:.28}
+.lok{background:var(--go);opacity:.45;margin-top:auto}
+.lline{position:absolute;left:-150px;right:0;height:0;border-top:2px solid var(--c)}
+.lline.lim{--c:var(--muted);border-top-style:dashed}
+.lline.plan{border-top-width:3px}
+.lline.lim span{position:absolute;left:214px;top:-17px;font-size:11px;color:var(--muted);white-space:nowrap}
+.lline.plan em{position:absolute;left:0;width:144px;text-align:right;top:-17px;font-size:11px;font-style:normal;font-weight:700;color:var(--c);white-space:nowrap}
+.lgnd{position:absolute;left:-150px;right:0;bottom:0;height:16px;font-size:11px;color:var(--muted);padding-left:62px;line-height:16px;border-top:2px solid var(--muted)}
 .kv{display:grid;grid-template-columns:max-content 1fr;gap:4px 14px;margin-top:8px;font-size:12px}
 .kv span:nth-child(odd){color:var(--muted)}
 .kv .pn{display:inline;font-size:inherit;letter-spacing:0;text-transform:none;color:var(--text);margin:0}
@@ -204,7 +230,7 @@ optgroup{background:var(--inset);color:var(--orange2)} option{background:var(--i
 .hr .w small{font-size:10px;color:var(--muted);font-weight:600;margin-left:1px}
 .hr .tp{font-size:11px;color:var(--muted)}
 
-.err{background:rgba(255,77,79,.08);border:1px solid rgba(255,77,79,.4);color:var(--errtext);border-radius:12px;padding:10px 12px;font-size:13px;margin-bottom:16px}
+.err{background:rgba(255,77,79,.08);border:1px solid rgba(255,77,79,.4);color:var(--errtext);border-radius:12px;padding:10px 12px;font-size:13px}
 .loading .a-verdict,.loading .a-conds,.loading .a-hourly{opacity:.45;transition:opacity .2s}
 footer{margin-top:22px;color:var(--muted);font-size:12px;text-align:center}
 footer a{color:var(--orange2)}
@@ -262,7 +288,7 @@ footer a{color:var(--orange2)}
     <section class="card a-air" aria-live="polite">
       <h2>Airspace check · United States</h2>
       <div class="airwrap">
-        <div class="airleft"><div class="airstat s-unk" id="airstat"></div><div class="altbox"><label for="alt">Planned altitude</label><div class="altin"><input id="alt" type="number" inputmode="numeric" min="0" max="1000" step="10" value="400"><span>ft AGL</span></div><p>Highest height above ground you plan to fly. The airspace verdict updates as you type.</p></div></div>
+        <div class="airleft"><div class="airstat s-unk" id="airstat"></div><div class="altbox"><label for="alt">Planned altitude</label><div class="altin"><input id="alt" type="number" inputmode="numeric" min="0" max="1000" step="10" value="400"><span>ft AGL</span></div><p>Highest height above ground you plan to fly. The airspace verdict updates as you type.</p></div><div class="chartbox"><div class="charthead"><label>VFR chart · 3 miles around the pin</label><span class="seg" id="chartseg"><button type="button" class="on" data-ch="sec">Sectional</button><button type="button" data-ch="tac">Terminal</button></span></div><div id="vfrmap"></div><p id="chartnote">FAA VFR chart. The solid ring is 3 statute miles from the pin, the dashed ring 1 mile.</p></div></div>
         <ul class="airlist" id="airlist"></ul>
       </div>
       <p class="note" id="airnote">Data: FAA UAS Facility Maps (grid cells and altitude ceilings) and FAA National Security UAS Flight Restrictions. Not real-time, and not an FAA authorization. This check is separate from the weather verdict.</p>
@@ -887,14 +913,105 @@ function cellDetails(feats,prim,minC){
     ['Last edited',esc(fmtDate(prim.a.LAST_EDIT))]
   ])+btn;
 }
-function altGauge(alt,limit,over){
-  const max=Math.max(450,Math.ceil(alt*1.1/50)*50);
-  const zones=[[0,limit,'go'],[limit,max,over]];
-  return gauge(0,max,alt,zones,[[limit,limit+' ft']]);
+/* Context for the layer diagram, set by renderAir for the current pin. */
+let airCtx={cls:[],cell:false,apt:''};
+const CLASS_REF={
+  B:'Class B usually continues above in tiered shelves, to about 10,000 ft MSL.',
+  C:'Class C usually continues above, typically to about 4,000 ft above the airport, with a wider outer shelf.',
+  D:'Class D usually extends to about 2,500 ft above the airport, with Class E typically above it.',
+  E:'Class E continues up to 18,000 ft MSL, where Class A begins.'
+};
+function classKey(){
+  const order=['B','C','D','E'];
+  for(let i=0;i<order.length;i++){
+    const re=new RegExp('CLASS[\\s_]*'+order[i]+'(?![A-Z])','i');
+    if(airCtx.cls.some(function(c){return re.test(c);}))return order[i];
+  }
+  return null;
 }
+/* Ground-to-ceiling diagram. The bottom part is to scale (FAA grid ceiling and planned altitude).
+   The band above is a typical-values reference only: the FAA grid data has no upper limits. */
+function altGauge(alt,limit,over){
+  const k=airCtx.cell?classKey():null;
+  const top=Math.max(50,Math.ceil(Math.max(limit*1.35,alt*1.25,100)/50)*50);
+  const pc=function(v){return Math.max(0,Math.min(100,v/top*100)).toFixed(1);};
+  const bt=function(v){return 'calc(16px + (100% - 16px) * '+(pc(v)/100).toFixed(4)+')';};
+  const A=Math.round(alt);
+  let inAir;
+  if(airCtx.cell){
+    inAir='Your planned <b>'+A+' ft AGL</b> is in <b>'+(k?'Class '+k:esc(airCtx.cls.join(', ')||'controlled'))+'</b> airspace'+
+      (airCtx.apt?' ('+esc(airCtx.apt)+')':'')+(alt>limit?', above the grid cell ceiling.':', within the grid cell ceiling.');
+  }else{
+    inAir='Your planned <b>'+A+' ft AGL</b> is outside any mapped airport grid cell, so this is most likely <b>Class G</b> (uncontrolled) airspace. Class E may apply overhead.';
+  }
+  const refTxt=k?CLASS_REF[k]:'No airport grid cell here. Class E typically starts at 700 or 1,200 ft AGL (or higher) above uncontrolled Class G.';
+  const refHead=k?'Above: Class '+k+' (reference)':'Above: adjacent airspace (reference)';
+  const limLbl=airCtx.cell?'FAA grid ceiling':'Standard limit';
+  const lim0=limit<=0;
+  return '<div class="inair">'+inAir+'</div>'+
+    '<div class="ldia">'+
+      '<div class="lref"><b>'+refHead+'</b><span>'+esc(refTxt)+' Typical values, not from the FAA data. Check a sectional chart.</span></div>'+
+      '<div class="lbrk">scale top '+top+' ft AGL · not to scale above</div>'+
+      '<div class="lscale">'+
+        '<div class="lbar">'+
+          '<div class="lover s-'+over+'" style="height:'+(100-pc(limit))+'%"></div>'+
+          '<div class="lok" style="height:'+pc(limit)+'%"></div>'+
+        '</div>'+
+        '<div class="lline lim" style="bottom:'+bt(limit)+'"><span>'+limLbl+': '+limit+' ft</span></div>'+
+        '<div class="lline plan s-'+(alt>limit?over:'go')+'" style="bottom:'+bt(alt)+'"><em>Planned: '+A+' ft</em></div>'+
+        '<div class="lgnd">Ground · 0 ft AGL</div>'+
+      '</div>'+
+    '</div>';
+}
+
+/* ---------- FAA VFR chart snippet (3 miles around the pin) ---------- */
+const FAA_TILES='https://tiles.arcgis.com/tiles/ssFJjBXIUyZDrSYZ/arcgis/rest/services/';
+const CHARTS={sec:{svc:'VFR_Sectional',native:11,name:'Sectional'},tac:{svc:'VFR_Terminal',native:12,name:'Terminal Area'}};
+let vmap=null,vLayer=null,vRing=null,vRing1=null,vDot=null,vKind='sec',vErr=0;
+const CH_NOTE='FAA VFR chart. The solid ring is 3 statute miles from the pin, the dashed ring 1 mile.';
+function chartBounds(){
+  const la=state.loc.lat,lo=state.loc.lon,d=4828.03/111320;
+  return L.latLngBounds([la-d,lo-d/Math.cos(la*Math.PI/180)],[la+d,lo+d/Math.cos(la*Math.PI/180)]);
+}
+function setChartLayer(){
+  if(!vmap)return;
+  if(vLayer)vmap.removeLayer(vLayer);
+  const c=CHARTS[vKind];vErr=0;
+  vLayer=L.tileLayer(FAA_TILES+c.svc+'/MapServer/tile/{z}/{y}/{x}',{minZoom:9,maxZoom:15,maxNativeZoom:c.native,
+    attribution:'FAA Aeronautical Information Services'});
+  vLayer.on('tileerror',function(){
+    if(++vErr>2)$('chartnote').textContent=(vKind==='tac'?'No Terminal Area Chart covers this spot, or the FAA chart service could not be reached.':
+      'The FAA chart tiles could not be loaded (outside US coverage, or the service is blocked or offline).');
+  });
+  vLayer.on('tileload',function(){if(vErr===0)$('chartnote').textContent=CH_NOTE;});
+  vLayer.addTo(vmap);
+}
+function updateChart(){
+  const box=$('vfrmap');
+  if(typeof L==='undefined'){box.className='mapmsg';box.textContent='The chart could not load (map library unavailable).';return;}
+  const ll=[state.loc.lat,state.loc.lon];
+  if(!vmap){
+    vmap=L.map(box,{zoomControl:true,scrollWheelZoom:false,attributionControl:true});
+    vRing=L.circle(ll,{radius:4828.03,color:'#ff7a1a',weight:2,fill:false}).addTo(vmap);
+    vRing1=L.circle(ll,{radius:1609.34,color:'#ff7a1a',weight:2,fill:false,dashArray:'6 4'}).addTo(vmap);
+    vDot=L.circleMarker(ll,{radius:5,color:'#fff',weight:2,fillColor:'#ff7a1a',fillOpacity:1}).addTo(vmap);
+    setChartLayer();
+  }
+  vRing.setLatLng(ll);vRing1.setLatLng(ll);vDot.setLatLng(ll);
+  vmap.invalidateSize();
+  vmap.fitBounds(chartBounds(),{animate:false,padding:[4,4]});
+}
+$('chartseg').addEventListener('click',function(e){
+  const b=e.target.closest('button[data-ch]');if(!b)return;
+  vKind=b.getAttribute('data-ch');
+  Array.prototype.forEach.call($('chartseg').children,function(x){x.classList.toggle('on',x===b);});
+  $('chartnote').textContent=CH_NOTE;
+  setChartLayer();
+});
 
 async function checkAirspace(){
   const my=++airReq;
+  updateChart();
   state.air=null;clearCells();
   setAir({s:'unk',pending:true,tag:'CHECKING',icon:'…',head:'Checking airspace…',sub:'Querying FAA airspace data for the pinned location.',items:[]});
   if(!state.loc.cc)await ensureGeo(state.loc);
@@ -953,6 +1070,9 @@ function renderAir(){
     const unit=String(prim.a.UNIT||'ft').toLowerCase(),isFt=/^f/.test(unit);
     let laancYes=false,laancNo=false;
     feats.forEach(function(f){for(let k=1;k<=5;k++){const v=f.a['APT'+k+'_LAANC'];if(v===1)laancYes=true;if(v===0)laancNo=true;}});
+    airCtx={cell:true,cls:[],apt:''};
+    feats.forEach(function(f){for(let k=1;k<=5;k++){const c=f.a['AIRSPACE_'+k];if(c)airCtx.cls.push(String(c).replace(/_/g,' '));}});
+    for(let i=0;i<5&&!airCtx.apt;i++){const n=prim.a['APT'+(i+1)+'_NAME'];if(n)airCtx.apt=String(n);}
     const how=laancYes?'Request it through LAANC (approvals are capped at the grid ceiling) or FAA DroneZone.':
       laancNo?'LAANC is not available here, so use FAA DroneZone.':'Request it through LAANC or FAA DroneZone.';
     if(minC==null||!isFt){
@@ -970,6 +1090,7 @@ function renderAir(){
     }
     cellItem={s:minC===0||(minC!=null&&isFt&&alt>minC)?'stop':'warn',t:'Controlled airspace (UAS Facility Map)',html:'Inside a mapped airport grid cell. FAA authorization is required before flying here (recreational and Part 107 pilots).'+cellDetails(feats,prim,minC)};
   }else if(fm.ok){
+    airCtx={cell:false,cls:[],apt:''};
     cellItem={s:'go',t:'Controlled airspace (UAS Facility Map)',html:'Not inside a mapped airport controlled-airspace grid cell. Some airspace is not on this map.'};
     if(alt>GEN_CEIL){
       lead('warn','CHECK ALTITUDE','Above 400 ft limit','Your planned '+esc(altTxt)+' is above the standard 400 ft AGL limit. Flying higher is generally allowed only within 400 ft of a structure.');
